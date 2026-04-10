@@ -1,24 +1,43 @@
-'use client';
+'use client'
 
-import { useEffect } from "react";
+import { useEffect, useRef } from 'react'
 
 const GlowingCursor = () => {
+  const cursorRef = useRef(null)
+
   useEffect(() => {
-    const cursor = document.querySelector(".cursor-glow");
+    if (!cursorRef.current) return
+    if (window.matchMedia('(pointer: coarse)').matches) return
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
 
-    const moveCursor = (e) => {
-      cursor.style.left = `${e.clientX}px`;
-      cursor.style.top = `${e.clientY}px`;
-    };
+    const cursor = cursorRef.current
+    const pointer = { x: window.innerWidth / 2, y: window.innerHeight / 2 }
+    const current = { ...pointer }
+    let animationFrame = 0
 
-    window.addEventListener("mousemove", moveCursor);
+    const render = () => {
+      current.x += (pointer.x - current.x) * 0.14
+      current.y += (pointer.y - current.y) * 0.14
+      cursor.style.left = `${current.x}px`
+      cursor.style.top = `${current.y}px`
+      animationFrame = window.requestAnimationFrame(render)
+    }
+
+    const moveCursor = (event) => {
+      pointer.x = event.clientX
+      pointer.y = event.clientY
+    }
+
+    animationFrame = window.requestAnimationFrame(render)
+    window.addEventListener('pointermove', moveCursor, { passive: true })
 
     return () => {
-      window.removeEventListener("mousemove", moveCursor);
-    };
-  }, []);
+      window.removeEventListener('pointermove', moveCursor)
+      window.cancelAnimationFrame(animationFrame)
+    }
+  }, [])
 
-  return <div className="cursor-glow"></div>;
-};
+  return <div ref={cursorRef} className="cursor-glow hidden lg:block" />
+}
 
-export default GlowingCursor;
+export default GlowingCursor

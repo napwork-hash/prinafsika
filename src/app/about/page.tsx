@@ -3,7 +3,6 @@
 import { Details } from '@/components/Details'
 import { XMarkIcon } from '@heroicons/react/20/solid'
 import clsx from 'clsx'
-import { Sparkles } from '@/components/Sparkles'
 
 const items = [
   { title: 'Hobby', content: 'Gaming, Coding, Cooking, and sometime need relax on the beach or mountain.' },
@@ -14,11 +13,11 @@ const items = [
 
 function About() {
   return (
-    <div className="flex min-h-screen flex-col items-center justify-between lg:p-24 p-10 bg-zinc-900 lg:ml-64">
-      <Sparkles density={1200} className="absolute h-full [mask-image:radial-gradient(50%_50%,blue,transparent_85%)]" />
-      <h2 className="text-3xl font-bold text-purple-500">About me!</h2>
-      <p className="pt-3 text-white italic">&quot;The only source of knowledge is experience&quot;</p>
-      <div className="overflow-hidden z-10">
+    <div className="relative flex min-h-screen flex-col items-center justify-between overflow-hidden bg-zinc-900 p-10 lg:ml-64 lg:p-24">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(59,130,246,0.18),transparent_25%),radial-gradient(circle_at_bottom,rgba(131,80,232,0.2),transparent_35%)]" />
+      <h2 className="z-10 text-3xl font-bold text-purple-500">About me!</h2>
+      <p className="z-10 pt-3 italic text-white">&quot;The only source of knowledge is experience&quot;</p>
+      <div className="z-10 overflow-hidden">
         <div className="flex min-h-screen px-8 pt-20 md:px-0">
           <Details className="mx-auto max-w-2xl">
             {items.map((item, index) => (
@@ -32,7 +31,7 @@ function About() {
                       </div>
                     </div>
                     <Details.Content className="overflow-hidden transition-all duration-500 will-change-[height]">
-                      <p className="space-y-3 pb-4 text-indigo-500 leading-relaxed text-[--tw-prose-body]">{item.content}</p>
+                      <p className="space-y-3 pb-4 leading-relaxed text-[--tw-prose-body] text-indigo-500">{item.content}</p>
                     </Details.Content>
                   </>
                 )}

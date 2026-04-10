@@ -1,5 +1,5 @@
-import Image from 'next/image'
 import React from 'react'
+import Image from 'next/image'
 
 const logos = [
   {
@@ -55,16 +55,15 @@ const logos = [
 const TechLogo = () => {
   return (
     <div className="relative flex items-center">
-      <div className="relative lg:max-w-screen-lg max-w-[22rem] overflow-hidden py-5">
+      <div className="relative max-w-[22rem] overflow-hidden py-5 lg:max-w-screen-lg">
         <div className="flex w-max animate-marquee [--duration:60s]">
           {[...logos, ...logos].map((logo, index) => (
             <div key={index} className="h-full px-2.5">
               <div className="relative h-full w-[18rem] rounded-2xl border border-white/5 bg-white/5 px-8 py-6">
                 <div className="mt-auto flex flex-col items-center gap-3">
-                  {/* eslint-disable-next-line */}
-                  <img src={logo.url} alt={logo.name} className="h-20 w-20 rounded-full" />
+                  <Image src={logo.url} alt={logo.name} width={80} height={80} className="h-20 w-20 rounded-full" />
                   <div className="flex flex-col">
-                    <h3 className="text-white text-3xl capitalize">{logo.name}</h3>
+                    <h3 className="text-3xl capitalize text-white">{logo.name}</h3>
                   </div>
                 </div>
               </div>

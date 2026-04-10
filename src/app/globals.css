@@ -101,14 +101,19 @@
 }
 
 .cursor-glow {
-  cursor: none;
   position: fixed;
-  width: 20px;
-  height: 20px;
-  background-color: radial-gradient(800px circle at 20px 20px, #8350e8, transparent 40%);
-  border-radius: 100%;
+  left: 0;
+  top: 0;
+  z-index: 40;
+  width: 14rem;
+  height: 14rem;
+  border-radius: 9999px;
+  background: radial-gradient(circle, rgba(131, 80, 232, 0.22) 0%, rgba(131, 80, 232, 0.08) 35%, transparent 72%);
   pointer-events: none;
-  box-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+  opacity: 0.75;
+  transform: translate3d(-50%, -50%, 0);
+  filter: blur(18px);
+  mix-blend-mode: screen;
 }
 
 @keyframes red-running-light {
@@ -180,33 +185,10 @@
   animation: indigo-running-text 5s infinite;
 }
 
-.swiper-wrapper {
-  width: 100%;
-  height: max-content !important;
-  padding-bottom: 64px !important;
-  -webkit-transition-timing-function: linear !important;
-  transition-timing-function: linear !important;
-  position: relative;
-}
-.swiper-pagination-bullet {
-  background: #4f46e5;
-}
-
-#nprogress .bar {
-  background: #6d28d9 !important;
-}
-
-#nprogress .peg {
-  box-shadow: 0 0 10px #6d28d9, 0 0 5px #6d28d9 !important;
-}
-
-#nprogress .spinner-icon {
-  border-top-color: #6d28d9 !important;
-  border-left-color: #6d28d9 !important;
-}
-
-#nprogress .spinner {
-  display: none;
+@media (pointer: coarse), (prefers-reduced-motion: reduce) {
+  .cursor-glow {
+    display: none;
+  }
 }
 
 .marquee-container {

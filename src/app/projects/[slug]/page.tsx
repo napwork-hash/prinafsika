@@ -1,67 +1,43 @@
-'use client'
-
-import { useState } from 'react'
 import { notFound } from 'next/navigation'
-import { Image } from '@nextui-org/react'
-import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { VscArrowLeft } from 'react-icons/vsc'
-import LoadingAnimation from '@/components/AnimationLoading'
+import Image from 'next/image'
 import { projects } from '@/app/projects/data/projects'
 
 export default function ProjectDetail({ params }: { params: { slug: string } }) {
-  const project = projects.find((p) => p.slug === params.slug)
-  const router = useRouter()
-  const [loadingImages, setLoadingImages] = useState<Record<number, boolean>>(
-    projects.reduce((acc, project) => {
-      acc[project.id] = true
-      return acc
-    }, {} as Record<number, boolean>)
-  )
+  const project = projects.find((entry) => entry.slug === params.slug)
 
-  if (!project) return notFound()
+  if (!project) {
+    return notFound()
+  }
 
   return (
-    <div className="flex min-h-screen flex-col items-center p-7 bg-zinc-900 lg:ml-64">
-      <div className="w-full flex items-center justify-center lg:justify-between lg:relative py-3">
-        <button onClick={() => router.back()} className="px-4 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-700 transition hidden lg:block">
-          <VscArrowLeft />
-        </button>
-        <h2 className="text-3xl font-bold text-purple-500 lg:absolute lg:left-1/2 lg:transform lg:-translate-x-1/2">{project.name}</h2>
+    <div className="flex min-h-screen flex-col items-center bg-zinc-900 p-7 lg:ml-64">
+      <div className="flex w-full max-w-4xl flex-col gap-4 py-3">
+        <Link href="/projects" className="w-fit rounded-lg border border-purple-500 px-4 py-2 text-sm text-purple-200 transition hover:bg-purple-500/10">
+          Back to projects
+        </Link>
+        <h2 className="text-center text-3xl font-bold text-purple-500">{project.name}</h2>
       </div>
 
-      <p className="text-white max-w-2xl text-justify pt-3">{project.description}</p>
+      <p className="max-w-2xl pt-3 text-justify text-white">{project.description}</p>
+
       <div className="flex flex-col">
-        <h3 className="text-2xl font-bold text-purple-500 pt-5 pb-2">Tech Stack</h3>
-        <ul className="list-disc text-white self-start">
+        <h3 className="pb-2 pt-5 text-2xl font-bold text-purple-500">Tech Stack</h3>
+        <ul className="list-disc self-start text-white">
           {project.tech_stack?.map((tech) => (
             <li className="list-outside" key={tech}>
-              {tech} ✅
+              {tech}
             </li>
           ))}
         </ul>
       </div>
 
-      <div className="border-2 border-purple-500 p-5 shadow-lg shadow-purple-500 mt-5 w-full max-w-4xl rounded-lg">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {project.photo.map((photo, index) => (
+      <div className="mt-5 w-full max-w-4xl rounded-lg border-2 border-purple-500 p-5 shadow-lg shadow-purple-500">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+          {project.photo.map((photo) => (
             <div key={photo} className="relative flex justify-center">
-              {loadingImages[project.id] && (
-                <div className="absolute inset-0 flex items-center justify-center bg-black/50">
-                  <LoadingAnimation />
-                </div>
-              )}
-
               <Link href={photo} target="_blank">
-                <Image
-                  src={photo}
-                  alt={project.name}
-                  width={400}
-                  height={300}
-                  className="border-2 border-indigo-500 rounded-lg hover:scale-105 transition opacity-0"
-                  onLoad={() => setLoadingImages((prev) => ({ ...prev, [project.id]: false }))}
-                  onError={() => setLoadingImages((prev) => ({ ...prev, [project.id]: false }))}
-                />
+                <Image src={photo} alt={project.name} width={800} height={600} sizes="(max-width: 768px) 100vw, 50vw" className="rounded-lg border-2 border-indigo-500 transition hover:scale-[1.02]" />
               </Link>
             </div>
           ))}
